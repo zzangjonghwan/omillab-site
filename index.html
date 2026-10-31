@@ -37,7 +37,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .past #skip{display:none}
 
 /* 무대 */
-#film{position:relative;height:900vh;height:900svh}
+#film{position:relative;height:1300vh;height:1300svh}
 #stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--night);isolation:isolate}
 .scene{position:absolute;inset:0;overflow:hidden;visibility:hidden;will-change:opacity,transform}
 .frame{position:absolute;will-change:transform}
@@ -62,14 +62,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #merge{background:var(--bone);color:var(--ink);will-change:clip-path}
 .fig{position:absolute;left:50%;top:64%;width:min(62vmin,620px);margin-left:calc(min(62vmin,620px)/-2);margin-top:calc(min(62vmin,620px)/-2);will-change:transform,opacity;filter:drop-shadow(0 22px 18px rgba(60,40,20,.28))}
 .fig img{width:100%}
-#burst{position:absolute;left:50%;top:64%;width:min(80vmin,800px);height:min(80vmin,800px);margin:calc(min(80vmin,800px)/-2) 0 0 calc(min(80vmin,800px)/-2);border-radius:50%;border:2px solid var(--brass-deep);opacity:0;will-change:transform,opacity}
+.burst{position:absolute;left:50%;top:64%;width:min(80vmin,800px);height:min(80vmin,800px);margin:calc(min(80vmin,800px)/-2) 0 0 calc(min(80vmin,800px)/-2);border-radius:50%;border:clamp(6px,1.4vmin,14px) solid var(--brass);opacity:0;will-change:transform,opacity}
+#rays{position:absolute;left:50%;top:64%;width:190vmax;height:190vmax;margin:-95vmax 0 0 -95vmax;border-radius:50%;background:repeating-conic-gradient(rgba(214,166,79,.34) 0 4deg,rgba(214,166,79,0) 4deg 27deg);-webkit-mask-image:radial-gradient(circle,#000 6%,transparent 42%);mask-image:radial-gradient(circle,#000 6%,transparent 42%);opacity:0;will-change:transform,opacity}
+#mFlash{position:absolute;inset:0;background:radial-gradient(circle at 50% 64%,#fff 0%,#fff3d0 30%,#e9b562 70%,#9b7230 100%);opacity:0;z-index:3;pointer-events:none}
+#mFx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.seq,.fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#defFlash{position:absolute;inset:0;z-index:2;background:radial-gradient(circle at 44% 40%,rgba(255,240,200,.95),rgba(255,170,70,.55) 42%,rgba(40,20,10,0) 80%);opacity:0;pointer-events:none}
+.top #snd.nudge{border-color:var(--brass);color:var(--brass);animation:nudge 1.8s ease-in-out infinite}
+@keyframes nudge{50%{box-shadow:0 0 0 5px rgba(214,166,79,.28)}}
 #formula{position:absolute;left:0;right:0;bottom:calc(3.5vh + env(safe-area-inset-bottom,0px));text-align:center;font-weight:700;font-size:clamp(14px,1.7vw,18px);color:#5c4c3a;padding:0 20px}
 #formula b{color:var(--red)}
 
 /* 신화 */
-#mythic{position:absolute;right:5vw;bottom:13%;width:min(58vmin,600px);transform-origin:70% 90%;opacity:0;will-change:transform,opacity;filter:drop-shadow(0 18px 18px rgba(0,0,0,.55))}
-#mythic img{width:100%}
-#muzzle{position:absolute;left:-16%;top:18%;width:46%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff6d8 0%,#ffcf6e 34%,rgba(255,160,50,0) 72%);opacity:0;will-change:transform,opacity}
 #tag{position:absolute;right:5vw;bottom:calc(10% + env(safe-area-inset-bottom,0px));font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--brass);opacity:0;text-align:right;width:min(50vmin,540px)}
 
 /* 문구 */
@@ -126,31 +130,32 @@ footer strong{color:var(--bone)}
 .static #stage{position:static;height:auto;overflow:visible;background:none}
 .static .scene{position:relative;inset:auto;height:100vh;height:100svh;visibility:visible}
 .static .cap{visibility:visible;opacity:1;pointer-events:auto}
-.static #tunnel,.static #lever,.static #hint,.static #prog,.static #mythic,.static #tag,.static #flash,.static #burst,.static #trail,.static #open,.static .fig.a,.static .fig.b{display:none}
+.static #tunnel,.static #lever,.static #hint,.static #prog,.static #tag,.static #flash,.static .burst,.static #rays,.static #mFlash,.static #mFx,.static .seq,.static .fx,.static #defFlash,.static #trail,.static #open,.static .fig.a,.static .fig.b{display:none}
 .static .fig.c{transform:none}
 .static .frame{inset:0;width:100%;height:100%}
 .static #capIn{display:none}
 
 @media (orientation:landscape){
   #capMerge{top:8vh}
-  #capMerge h2{font-size:clamp(36px,8vmin,72px)}
+  #capMerge h2,#capDef h2{font-size:clamp(36px,8vmin,72px)}
+  #capDef{top:calc(9vh + env(safe-area-inset-top,0px))}
+  #capDef p{font-size:clamp(14px,1.4vw,18px);margin-top:8px}
 }
 @media (max-width:760px){
   .about{grid-template-columns:minmax(0,1fr)}
   .c-top{top:calc(12vh + env(safe-area-inset-top,0px))}
-  #mythic{right:-2vw;bottom:24%;width:min(66vmin,420px)}
   #tag{bottom:calc(17% + env(safe-area-inset-bottom,0px));right:20px;width:auto}
   #prog{width:22vw}
   .top .chip{padding:7px 11px;font-size:12.5px}
   #hint{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
   #formula{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
-  .fig,#burst{top:60%}
+  .fig,.burst,#rays{top:60%}
 }
 </style>
 
 </head><body><header class="top">
   <a class="brand" href="#top" aria-label="OMIL LAB">OMIL <span>LAB</span></a>
-  <button class="chip" id="snd" type="button" aria-pressed="false">소리 끔</button>
+  <button class="chip nudge" id="snd" type="button" aria-pressed="false">소리 켜기</button>
   <a class="chip" href="#about" id="skip">건너뛰기</a>
 </header>
 
@@ -175,22 +180,25 @@ footer strong{color:var(--bone)}
       </div>
       <!-- 4. 조합 -->
       <div class="scene" id="merge" style="z-index:4">
-        <div id="burst"></div>
+        <div id="rays"></div>
+        <div class="burst"></div><div class="burst"></div><div class="burst"></div>
         <div class="fig a" id="figA"><img src="assets/cut_spear.webp" alt="콕콕창병"></div>
         <div class="fig b" id="figB"><img src="assets/cut_bow.webp" alt="딱활병"></div>
         <div class="fig c" id="figC"><img src="assets/cut_gun.webp" alt="빨대콩총병"></div>
+        <canvas id="mFx" aria-hidden="true"></canvas>
+        <div id="mFlash"></div>
         <p id="formula">콕콕창병 + 딱활병 = <b>빨대콩총병</b></p>
       </div>
       <!-- 5. 전선 -->
       <div class="scene" id="sDef" style="z-index:5">
-        <div class="frame" id="fDef"><picture><source media="(orientation:portrait)" srcset="assets/def_t.jpg"><img src="assets/def_w.jpg" alt="두 병정단이 나무 벽 위에서 나란히 전선을 지킨다" loading="eager"></picture></div>
+        <div class="frame" id="fDef"><picture><source media="(orientation:portrait)" srcset="assets/def_t.jpg"><img src="assets/def_w.jpg" alt="두 병정단과 삐약단의 대포가 나무 벽 위에서 나란히 전선을 지킨다" loading="eager"></picture><canvas class="seq" id="seqDef" aria-hidden="true"></canvas><canvas class="fx" id="defFx" aria-hidden="true"></canvas></div>
         <div class="shade" style="background:linear-gradient(180deg,rgba(6,10,22,.86) 0%,rgba(6,10,22,.25) 40%,rgba(6,10,22,.05) 100%)"></div>
-        <div id="mythic"><div id="muzzle"></div><img src="assets/cut_chick.webp" alt="신화 병정 삐약단의 달걀 대포"></div>
+        <div id="defFlash"></div>
         <div id="tag">신화 · 삐약단</div>
       </div>
       <!-- 6. 깃발 -->
       <div class="scene" id="sEnd" style="z-index:6">
-        <div class="frame" id="fEnd"><picture><source media="(orientation:portrait)" srcset="assets/fin_t.jpg"><img src="assets/fin_w.jpg" alt="나무 요새 위에 깃발을 세우는 병정" loading="eager"></picture></div>
+        <div class="frame" id="fEnd"><picture><source media="(orientation:portrait)" srcset="assets/fin_t.jpg"><img src="assets/fin_w.jpg" alt="나무 요새 위에 깃발을 세우는 병정" loading="eager"></picture><canvas class="seq" id="seqEnd" aria-hidden="true"></canvas><canvas class="fx" id="endFx" aria-hidden="true"></canvas></div>
         <div class="shade" style="background:linear-gradient(100deg,rgba(24,14,6,.82) 0%,rgba(24,14,6,.42) 46%,rgba(24,14,6,0) 72%)"></div>
       </div>
       <div id="flash"></div>
@@ -286,10 +294,13 @@ footer strong{color:var(--bone)}
   // 스크롤 위치 → 진행도
   let target = 0, cur = 0, auto = null;
   const range = () => film.offsetHeight - stage.clientHeight;
-  const readScroll = () => { target = clamp((scrollY - film.offsetTop) / range()); };
-  const chrome = () => { const end = film.offsetTop + range(); $('#prog').style.opacity = scrollY > end ? 0 : 1; $('#dock').classList.toggle('off', target > .895 || scrollY > end); document.documentElement.classList.toggle('past', scrollY > end); };
+  // 스크롤 양 → 필름 진행도. 합체 · 전선 · 깃발에 스크롤을 더 내준다.
+  const KNOTS = [[0, 0], [.3633, .545], [.5633, .745], [.8467, .9], [1, 1]];
+  const warp = (v, a, b) => { for (let i = 1; i < KNOTS.length; i++) if (v <= KNOTS[i][a]) { const s = KNOTS[i - 1], e = KNOTS[i]; return s[b] + (e[b] - s[b]) * (v - s[a]) / (e[a] - s[a]); } return 1; };
+  const readScroll = () => { target = warp(clamp((scrollY - film.offsetTop) / range()), 0, 1); };
+  const chrome = () => { const end = film.offsetTop + range(); $('#prog').style.opacity = scrollY > end ? 0 : 1; $('#dock').classList.toggle('off', target > .95 || scrollY > end); document.documentElement.classList.toggle('past', scrollY > end); };
   addEventListener('scroll', () => { readScroll(); chrome(); }, { passive: true });
-  const scrollToP = (p) => scrollTo(0, film.offsetTop + p * range());
+  const scrollToP = (p) => scrollTo(0, film.offsetTop + warp(p, 1, 0) * range());
 
   // 레버: 끌면 스크롤을 움직인다. 눌렀다 놓으면 끝까지 당겨진다.
   const LEVER_END = 0.12;
@@ -303,22 +314,48 @@ footer strong{color:var(--bone)}
   addEventListener('wheel', () => { auto = null; }, { passive: true });
   addEventListener('touchmove', () => { if (!drag) auto = null; }, { passive: true });
 
-  // 소리: 합성음만 쓴다. 기본은 끔.
+  // 전선 장면의 타격 시점과 위치. 영상에서 동작이 나오는 때에 맞췄고, 좌표는 그림 기준 비율이다.
+  const SHOT = {
+    w: { fire: .858, mx: .4, my: .47,
+      cues: [[.7555, 'drum'], [.758, 'sword'], [.7615, 'felt'], [.81, 'shield'], [.8135, 'felt'], [.821, 'shield'], [.825, 'bow'], [.8295, 'felt'], [.832, 'wand'], [.858, 'cannon'], [.866, 'scatter']],
+      fx: [{ k: 'ring', x: .2, y: .49, at: .7555 }, { k: 'slash', x: .29, y: .44, at: .758 }, { k: 'puff', x: .37, y: .82, at: .7615, d: .016 }, { k: 'spark', x: .77, y: .47, at: .81 }, { k: 'puff', x: .63, y: .8, at: .8135, d: .016 }, { k: 'spark', x: .77, y: .47, at: .821 }, { k: 'arrow', x: .6, y: .45, tx: .52, ty: .84, at: .825, d: .006 }, { k: 'puff', x: .52, y: .84, at: .8295, d: .016 }, { k: 'spark', x: .82, y: .44, at: .832 }] },
+    t: { fire: .858, mx: .41, my: .48,
+      cues: [[.7625, 'sword'], [.766, 'felt'], [.787, 'bow'], [.792, 'felt'], [.806, 'wand'], [.81, 'felt'], [.825, 'drum'], [.829, 'felt'], [.858, 'cannon'], [.866, 'scatter']],
+      fx: [{ k: 'slash', x: .1, y: .49, at: .7625 }, { k: 'puff', x: .2, y: .76, at: .766, d: .016 }, { k: 'arrow', x: .25, y: .5, tx: .5, ty: .74, at: .787, d: .006 }, { k: 'puff', x: .5, y: .74, at: .792, d: .016 }, { k: 'spark', x: .67, y: .49, at: .806 }, { k: 'puff', x: .75, y: .74, at: .81, d: .016 }, { k: 'ring', x: .87, y: .52, at: .825 }, { k: 'puff', x: .85, y: .74, at: .829, d: .016 }] },
+  };
+  const PLANT_AT = .965, PLANT = { w: { x: .765, y: .47 }, t: { x: .517, y: .69 } };
+
+  // 소리: ElevenLabs로 만든 효과음. 기본은 끔이고, 켤 때 처음 받는다.
   const audio = (() => {
-    let ctx = null, on = false, last = 0;
-    const blip = (f, d, type, g) => { if (!on || !ctx) return; const o = ctx.createOscillator(), a = ctx.createGain(), t = ctx.currentTime; o.type = type; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(Math.max(40, f * .55), t + d); a.gain.setValueAtTime(g, t); a.gain.exponentialRampToValueAtTime(.0001, t + d); o.connect(a).connect(ctx.destination); o.start(t); o.stop(t + d + .02); };
+    const GAIN = { lever: .32, box: .6, whoosh: .5, rumble: .28, charge: .5, impact: .9, crack: .6, sword: .45, bow: .42, drum: .42, shield: .42, wand: .3, felt: .38, cannon: .62, scatter: .42, flag: .7 };
+    let ctx = null, on = false, master = null; const buf = {}, lastAt = {};
+    const load = (n) => fetch(`assets/sfx/${n}.mp3`).then((r) => r.arrayBuffer()).then((a) => new Promise((ok, no) => ctx.decodeAudioData(a, ok, no))).then((b) => { buf[n] = b; }).catch(() => {});
     return {
       wake() { if (on && ctx && ctx.state === 'suspended') ctx.resume(); },
-      toggle() { on = !on; if (on && !ctx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) ctx = new AC(); else on = false; } if (ctx && ctx.state === 'suspended') ctx.resume(); return on; },
-      tick() { const n = performance.now(); if (n - last < 45) return; last = n; blip(1500, .03, 'square', .035); },
-      clunk() { blip(170, .16, 'triangle', .22); blip(620, .05, 'square', .05); },
-      chime() { blip(880, .35, 'sine', .09); setTimeout(() => blip(1320, .4, 'sine', .07), 70); },
-      boom() { blip(95, .4, 'triangle', .3); blip(240, .12, 'sawtooth', .05); },
+      toggle() {
+        on = !on;
+        if (on && !ctx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) { ctx = new AC(); master = ctx.createDynamicsCompressor(); master.threshold.value = -8; master.ratio.value = 6; master.connect(ctx.destination); Object.keys(GAIN).forEach(load); } else on = false;
+        }
+        if (ctx && ctx.state === 'suspended') ctx.resume();
+        return on;
+      },
+      play(n) {
+        if (!on || !ctx || !buf[n]) return;
+        const t = performance.now(); if (t - (lastAt[n] || 0) < 90) return; lastAt[n] = t;
+        const s = ctx.createBufferSource(), g = ctx.createGain(); s.buffer = buf[n]; g.gain.value = GAIN[n]; s.connect(g).connect(master); s.start();
+      },
+      tick() { this.play('lever'); },
     };
   })();
   const sndBtn = $('#snd');
-  sndBtn.addEventListener('click', () => { const on = audio.toggle(); sndBtn.textContent = on ? '소리 켬' : '소리 끔'; sndBtn.setAttribute('aria-pressed', on); if (on) audio.tick(); });
-  document.querySelectorAll('[data-tick],.chip').forEach((el) => { el.addEventListener('pointerenter', () => audio.tick()); });
+  sndBtn.addEventListener('click', () => { const on = audio.toggle(); sndBtn.textContent = on ? '소리 켬' : '소리 켜기'; sndBtn.setAttribute('aria-pressed', on); sndBtn.classList.remove('nudge'); });
+
+  // 스크롤이 앞으로 지나갈 때 한 번씩 울리는 소리. 숫자는 필름 진행도.
+  const CUES = [[.135, 'box'], [.2, 'rumble'], [.225, 'whoosh'], [.6, 'charge'], [.652, 'impact'], [.652, 'crack'], [.668, 'scatter'], [PLANT_AT, 'flag']];
+  let cueP = 0;
+  function runCues(p) { if (p > cueP) for (const [at, n] of [...CUES, ...SHOT[matchMedia('(orientation:portrait)').matches ? 't' : 'w'].cues]) if (cueP < at && at <= p) audio.play(n); cueP = p; }
 
   // 커서 궤적: 황동 가루. 마우스가 있는 환경에서만.
   const trail = $('#trail'), tc = trail.getContext('2d'), fine = matchMedia('(pointer:fine)').matches;
@@ -338,11 +375,42 @@ footer strong{color:var(--bone)}
   let mx = 0, my = 0, smx = 0, smy = 0;
   if (fine) addEventListener('pointermove', (e) => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; }, { passive: true });
 
-  const el = { sBox: $('#sBox'), open: $('#open'), lever: $('#lever'), tunnel: $('#tunnel'), rings: [...document.querySelectorAll('.ring')], flash: $('#flash'), sReg: $('#sReg'), fReg: $('#fReg'), merge: $('#merge'), figA: $('#figA'), figB: $('#figB'), figC: $('#figC'), burst: $('#burst'), formula: $('#formula'), sDef: $('#sDef'), fDef: $('#fDef'), mythic: $('#mythic'), muzzle: $('#muzzle'), tag: $('#tag'), sEnd: $('#sEnd'), fEnd: $('#fEnd'), hint: $('#hint'), prog: $('#prog i'), dock: $('#dock'), capEnd: $('#capEnd'), tw: [...document.querySelectorAll('#capTunnel span')] };
+  const el = { sBox: $('#sBox'), open: $('#open'), lever: $('#lever'), tunnel: $('#tunnel'), rings: [...document.querySelectorAll('.ring')], flash: $('#flash'), sReg: $('#sReg'), fReg: $('#fReg'), merge: $('#merge'), figA: $('#figA'), figB: $('#figB'), figC: $('#figC'), bursts: [...document.querySelectorAll('.burst')], rays: $('#rays'), mFlash: $('#mFlash'), mFx: $('#mFx'), formula: $('#formula'), sDef: $('#sDef'), fDef: $('#fDef'), defFx: $('#defFx'), defFlash: $('#defFlash'), tag: $('#tag'), sEnd: $('#sEnd'), fEnd: $('#fEnd'), endFx: $('#endFx'), hint: $('#hint'), prog: $('#prog i'), dock: $('#dock'), capEnd: $('#capEnd'), tw: [...document.querySelectorAll('#capTunnel span')] };
   // 문구: [나타남 시작, 다 나타남, 사라짐 시작, 다 사라짐]
-  const caps = [['#capIn', -1, -.5, .085, .125], ['#capTunnel', .235, .265, .335, .385], ['#capReg', .435, .465, .525, .55], ['#capMerge', .585, .61, .695, .715], ['#capDef', .745, .77, .855, .875], ['#capEnd', .9, .935, 2, 3]].map(([s, a, b, c, d]) => ({ n: $(s), a, b, c, d }));
+  const caps = [['#capIn', -1, -.5, .085, .125], ['#capTunnel', .235, .265, .335, .385], ['#capReg', .435, .465, .525, .55], ['#capMerge', .585, .61, .695, .715], ['#capDef', .745, .77, .856, .874], ['#capEnd', .968, .985, 2, 3]].map(([s, a, b, c, d]) => ({ n: $(s), a, b, c, d }));
 
-  let lastAngle = 0, opened = false, merged = false, fired = false, lastP = -1;
+  // 움직이는 장면: 영상에서 뽑은 그림을 스크롤로 넘긴다. 받은 그림끼리 겹쳐 그려 프레임 사이를 잇는다.
+  const portraitNow = () => matchMedia('(orientation:portrait)').matches;
+  function makeSeq(canvas, name, count) {
+    const c = canvas.getContext('2d'); let imgs = [], ori = null, drawn = -1;
+    const start = () => {
+      const o = portraitNow() ? 't' : 'w'; if (o === ori) return; ori = o; drawn = -1;
+      imgs = Array.from({ length: count }, () => null);
+      let next = 0; const pump = () => { if (next >= count) return; const i = next++, im = new Image(); im.decoding = 'async'; im.onload = () => { imgs[i] = im; drawn = -1; pump(); }; im.onerror = pump; im.src = `assets/seq/${name}_${o}/${String(i + 1).padStart(3, '0')}.webp`; };
+      for (let k = 0; k < 6; k++) pump();
+    };
+    return {
+      start,
+      draw(f) {
+        const v = clamp(f, 0, 1) * (count - 1), i = Math.floor(v), key = Math.round(v * 8);
+        if (key === drawn || !imgs.length) return;
+        let a = i; while (a >= 0 && !imgs[a]) a--; if (a < 0) return;
+        const im = imgs[a]; if (canvas.width !== im.naturalWidth) { canvas.width = im.naturalWidth; canvas.height = im.naturalHeight; }
+        c.globalAlpha = 1; c.drawImage(im, 0, 0, canvas.width, canvas.height);
+        const n = imgs[i + 1]; if (a === i && n && v > i) { c.globalAlpha = v - i; c.drawImage(n, 0, 0, canvas.width, canvas.height); c.globalAlpha = 1; }
+        drawn = key;
+      },
+    };
+  }
+  const seqDef = makeSeq($('#seqDef'), 'def', 90), seqEnd = makeSeq($('#seqEnd'), 'end', 45);
+  const fitFx = (cv) => { const w = cv.clientWidth, h = cv.clientHeight, d = Math.min(devicePixelRatio || 1, 1.5); if (cv.width !== Math.round(w * d)) { cv.width = Math.round(w * d); cv.height = Math.round(h * d); } const g = cv.getContext('2d'); g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, w, h); return { g, w, h }; };
+  // 값이 진행도로만 정해지게 난수를 미리 뽑아 둔다. 그래야 앞뒤로 스크롤해도 같은 그림이 나온다.
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const CHIPS = Array.from({ length: 110 }, () => ({ a: rnd() * 6.283, v: .25 + rnd() * .95, s: 3 + rnd() * 11, r: rnd() * 12, c: ['#d6a64f', '#9b7230', '#8a5a33', '#c98f4e', '#6b4526'][Math.floor(rnd() * 5)], ar: .16 + rnd() * .3 }));
+  const PUFFS = Array.from({ length: 16 }, () => ({ a: rnd() * 6.283, v: .2 + rnd() * .8, s: .5 + rnd() * .9, g: 150 + Math.floor(rnd() * 60) }));
+  const DUST = Array.from({ length: 34 }, () => ({ a: -Math.PI * rnd(), v: .3 + rnd() * .7, s: 1 + rnd() * 3 }));
+
+  let lastAngle = 0, lastP = -1;
   function render(p) {
     // 1. 상자와 레버
     const pull = inOut(seg(p, .012, LEVER_END));
@@ -352,7 +420,6 @@ footer strong{color:var(--bone)}
     document.documentElement.classList.toggle('pulled', pull > .98);
     const openT = inOut(seg(p, LEVER_END - .012, .15));
     el.open.style.opacity = openT;
-    if (openT > .05 && !opened) { opened = true; audio.clunk(); } if (openT < .01) opened = false;
     const dive = easeIn(seg(p, .155, .285));
     const wide = innerWidth > innerHeight; const heroK = wide ? 1 - seg(p, .13, .24) : 0; const hx = heroK * innerWidth * .07; const hy = heroK * innerHeight * .05;
     fBox.style.transform = `translate(${hx - smx * 12}px,${hy - smy * 8}px) scale(${1.02 + heroK * .15 + seg(p, 0, .15) * .05 + dive * 9})`;
@@ -386,43 +453,86 @@ footer strong{color:var(--bone)}
     vis(el.merge, p > .545 && p < .745);
     if (p > .545 && p < .745) {
       el.merge.style.clipPath = `circle(${rev * 130}vmax at 50% 64%)`;
-      const m = inOut(seg(p, .6, .652));
-      const off = Math.min(innerWidth * .34, innerHeight * .34) * (1 - m);
-      el.figA.style.transform = `translateX(${-off - 6}px) scale(${.88 + m * .04}) rotate(${(1 - m) * -5}deg)`;
-      el.figB.style.transform = `translateX(${off + 6}px) scale(${.88 + m * .04}) rotate(${(1 - m) * 5}deg)`;
-      const after = seg(p, .652, .668);
-      el.figA.style.opacity = el.figB.style.opacity = 1 - after;
-      const pop = seg(p, .652, .682);
-      el.figC.style.opacity = after;
-      el.figC.style.transform = `scale(${.55 + back(pop) * .6})`;
-      const br = seg(p, .65, .69);
-      el.burst.style.opacity = (1 - br) * (br > 0 ? .9 : 0);
-      el.burst.style.transform = `scale(${.2 + br * 1.2})`;
-      el.formula.style.opacity = seg(p, .665, .69);
-      if (pop > .05 && !merged) { merged = true; audio.chime(); } if (pop < .01) merged = false;
+      // 뒤로 물러나 떨다가, 가속해 부딪힌다.
+      const HIT = .652, hit = p >= HIT;
+      const wind = inOut(seg(p, .6, .628)), dash = easeIn(seg(p, .628, HIT));
+      const reach = Math.min(innerWidth * .34, innerHeight * .34);
+      const off = reach * (1 + wind * .16) * (1 - dash);
+      const trem = Math.sin(p * 2600) * wind * (1 - dash) * 5;
+      const lean = (wind * 9 - dash * 22);
+      el.figA.style.transform = `translate(${-off - 6 + trem}px,${-trem * .4}px) scale(${.88 - wind * .03 + dash * .1},${.88 + wind * .03 - dash * .05}) rotate(${-lean}deg)`;
+      el.figB.style.transform = `translate(${off + 6 - trem}px,${trem * .4}px) scale(${.88 - wind * .03 + dash * .1},${.88 + wind * .03 - dash * .05}) rotate(${lean}deg)`;
+      el.figA.style.opacity = el.figB.style.opacity = hit ? 0 : 1;
+
+      // 충돌: 섬광 → 충격파 세 겹 → 빛살 → 파편, 새 병정은 찌그러졌다 튀어 오른다.
+      const t = seg(p, HIT, .735), pop = seg(p, HIT, .69), decay = Math.exp(-t * 7);
+      el.figC.style.opacity = hit ? 1 : 0;
+      const wob = hit ? Math.cos(pop * 15) * Math.exp(-pop * 4.2) : 0;
+      el.figC.style.transform = `translateY(${(1 - easeOut(pop)) * 6}%) scale(${(.55 + back(pop) * .45) * (1 + wob * .3)},${(.55 + back(pop) * .45) * (1 - wob * .3)})`;
+      el.mFlash.style.opacity = hit ? Math.pow(1 - seg(p, HIT, .676), 2) : 0;
+      el.bursts.forEach((b, i) => { const k = seg(p, HIT + i * .006, HIT + .05 + i * .012); b.style.opacity = k > 0 && k < 1 ? (1 - k) * .95 : 0; b.style.transform = `scale(${.12 + easeOut(k) * (1.5 + i * .45)})`; });
+      el.rays.style.opacity = hit ? (1 - seg(p, HIT + .012, .722)) * .95 : 0;
+      el.rays.style.transform = `rotate(${t * 70}deg) scale(${.5 + easeOut(t) * .8})`;
+      const quake = hit ? decay : 0;
+      el.merge.style.transform = `translate(${Math.sin(p * 1900) * quake * Math.min(22, innerWidth * .04)}px,${Math.cos(p * 2300) * quake * 15}px) scale(${1 + quake * .12})`;
+      const { g, w, h } = fitFx(el.mFx);
+      if (hit && t < 1) {
+        const cx = w / 2, cy = h * (innerWidth <= 760 ? .6 : .64), R = Math.max(w, h) * .8;
+        for (const c of CHIPS) {
+          const e = easeOut(t), x = cx + Math.cos(c.a) * c.v * R * e, y = cy + Math.sin(c.a) * c.v * R * e + t * t * R * .5;
+          g.save(); g.translate(x, y); g.rotate(c.r + t * 14); g.globalAlpha = 1 - t * t; g.fillStyle = c.c; g.fillRect(-c.s / 2, -c.s * c.ar / 2, c.s, c.s * c.ar); g.restore();
+        }
+      }
+      el.formula.style.opacity = seg(p, .68, .7);
     }
 
-    // 5. 전선: 아래에서 올라오고, 끝에 신화가 한 발 쏜다.
+    // 5. 전선: 왼쪽 부대, 오른쪽 부대 차례로 공격하고 대포가 끝을 낸다.
     const up = inOut(seg(p, .715, .75));
     vis(el.sDef, p > .715 && p < .925);
+    if (p > .6 && p < .925) seqDef.start();
     if (p > .715 && p < .925) {
-      const shot = seg(p, .842, .856), rec = (1 - seg(p, .856, .88));
-      const shake = shot > 0 && rec > 0 ? Math.sin(p * 900) * rec * 7 : 0;
+      const part = (a, b, from, to) => from + seg(p, a, b) * (to - from);
+      const f = p < .795 ? part(.75, .795, 0, 1 / 3) : p < .84 ? part(.795, .84, 1 / 3, 2 / 3) : part(.84, .885, 2 / 3, 1);
+      seqDef.draw(f);
+      const S = SHOT[portraitNow() ? 't' : 'w'];
+      const k = seg(p, S.fire, S.fire + .03), blast = p >= S.fire ? Math.exp(-k * 5) : 0;
+      const shake = blast * Math.sin(p * 2400) * 16;
       el.sDef.style.transform = `translateY(${(1 - up) * 100}%)`;
-      el.fDef.style.transform = `translate(${-smx * 16 + shake}px,${innerHeight * .1 - smy * 10 + shake * .5}px) scale(${1.2 - inOut(seg(p, .72, .9)) * .14})`;
-      const rise = back(seg(p, .795, .83));
-      el.mythic.style.opacity = seg(p, .795, .81);
-      el.mythic.style.transform = `translateY(${(1 - rise) * 60}%) rotate(${shot > 0 ? rec * 3 : 0}deg) translateX(${shot > 0 ? rec * 18 : 0}px)`;
-      el.tag.style.opacity = seg(p, .815, .835);
-      el.muzzle.style.opacity = shot > 0 ? rec * rec : 0;
-      el.muzzle.style.transform = `scale(${.5 + shot * 1.4})`;
-      if (shot > .2 && !fired) { fired = true; audio.boom(); } if (shot < .01) fired = false;
+      const wide2 = innerWidth > innerHeight;
+      el.fDef.style.transform = `translate(${-smx * 10 + shake}px,${(wide2 ? innerHeight * .06 : 0) - smy * 6 + shake * .6}px) scale(${(wide2 ? 1.12 : 1) + blast * .035})`;
+      el.tag.style.opacity = seg(p, .8, .82) * (1 - seg(p, .875, .89));
+      el.defFlash.style.opacity = blast * .75;
+      const { g, w, h } = fitFx(el.defFx);
+      for (const a of S.fx) {
+        const q = seg(p, a.at, a.at + (a.d || .012)); if (q <= 0 || q >= 1) continue;
+        const x = a.x * w, y = a.y * h, u = Math.min(w, h);
+        g.save(); g.globalAlpha = 1 - q; g.lineCap = 'round';
+        if (a.k === 'slash') { g.strokeStyle = '#fff3d0'; g.lineWidth = u * .012 * (1 - q) + 1; g.beginPath(); g.arc(x, y, u * .07, -2.6 + q * 1.2, -1.2 + q * 2.4); g.stroke(); }
+        if (a.k === 'ring') { g.strokeStyle = '#ffe3a6'; g.lineWidth = u * .006 * (1 - q) + 1; g.beginPath(); g.ellipse(x, y, u * .08 * q + 4, u * .05 * q + 3, 0, 0, 6.3); g.stroke(); }
+        if (a.k === 'arrow') { const X = x + (a.tx * w - x) * q, Y = y + (a.ty * h - y) * q, sc = 1 + q * 3; g.globalAlpha = 1; g.strokeStyle = '#e9c98a'; g.lineWidth = 1.5 * sc; g.beginPath(); g.moveTo(X - (a.tx * w - x) * .05, Y - (a.ty * h - y) * .05); g.lineTo(X, Y); g.stroke(); }
+        if (a.k === 'spark') { g.fillStyle = '#ffd97a'; for (let i = 0; i < 7; i++) { const an = i * .9, r = u * .07 * easeOut(q); g.beginPath(); g.arc(x + Math.cos(an) * r, y + Math.sin(an) * r, u * .004 * (1 - q) + .6, 0, 6.3); g.fill(); } }
+        if (a.k === 'puff') { for (let i = 0; i < 9; i++) { const an = i * .7 + a.x * 9, r = u * .09 * easeOut(q); g.fillStyle = ['#d6a64f', '#a93a2c', '#6f8a4e', '#7a6aa8'][i % 4]; g.beginPath(); g.arc(x + Math.cos(an) * r, y + Math.sin(an) * r + q * q * u * .05, u * .005 * (1 - q) + 1, 0, 6.3); g.fill(); } }
+        g.restore();
+      }
+      // 발사 연기
+      const sm = seg(p, S.fire + .002, S.fire + .05);
+      if (sm > 0 && sm < 1) { const mx = S.mx * w, my = S.my * h, u = Math.min(w, h); for (const c of PUFFS) { const r = u * c.v * .22 * easeOut(sm); g.globalAlpha = (1 - sm) * .34; g.fillStyle = `rgb(${c.g},${c.g - 6},${c.g - 14})`; g.beginPath(); g.arc(mx + Math.cos(c.a) * r, my + Math.sin(c.a) * r * .7 - sm * u * .06, u * c.s * .07 * (.4 + sm), 0, 6.3); g.fill(); } g.globalAlpha = 1; }
     }
 
-    // 6. 깃발
-    const fin = inOut(seg(p, .875, .925));
-    vis(el.sEnd, p > .875);
-    if (p > .875) { el.sEnd.style.opacity = fin; el.fEnd.style.transform = `translate(${-smx * 10}px,${-smy * 6}px) scale(${1.1 - seg(p, .875, 1) * .1})`; }
+    // 6. 깃발: 스크롤하면 병정이 깃대를 내려 꽂는다.
+    const fin = inOut(seg(p, .885, .925));
+    vis(el.sEnd, p > .885);
+    if (p > .75) seqEnd.start();
+    if (p > .885) {
+      el.sEnd.style.opacity = fin;
+      seqEnd.draw(seg(p, .915, .985));
+      const P = PLANT[portraitNow() ? 't' : 'w'];
+      const q = seg(p, PLANT_AT, PLANT_AT + .022), jolt = p >= PLANT_AT ? Math.exp(-q * 6) : 0;
+      el.fEnd.style.transform = `translate(${-smx * 8 + Math.sin(p * 2600) * jolt * 9}px,${-smy * 5 + jolt * 8}px)`;
+      const { g, w, h } = fitFx(el.endFx);
+      if (q > 0 && q < 1) { const x = P.x * w, y = P.y * h, u = Math.min(w, h); g.fillStyle = '#e8cfa0'; for (const d of DUST) { const r = u * d.v * .13 * easeOut(q); g.globalAlpha = (1 - q) * .85; g.beginPath(); g.arc(x + Math.cos(d.a) * r, y + Math.sin(d.a) * r * .7 + q * q * u * .03, d.s, 0, 6.3); g.fill(); } g.globalAlpha = 1; }
+    }
+    runCues(p);
 
     // 문구
     for (const c of caps) {
@@ -430,7 +540,7 @@ footer strong{color:var(--bone)}
       c.n.style.opacity = o; vis(c.n, o > .001);
       c.n.style.transform = `translateY(${(1 - seg(p, c.a, c.b)) * 26 - seg(p, c.c, c.d) * 22}px)` + (c.n.id === 'capTunnel' ? ' translateY(-50%)' : '');
     }
-    el.capEnd.classList.toggle('live', p > .92);
+    el.capEnd.classList.toggle('live', p > .975);
     document.documentElement.classList.toggle('on-light', p > .57 && p < .735);
     el.prog.style.transform = `scaleX(${p})`;
       }
