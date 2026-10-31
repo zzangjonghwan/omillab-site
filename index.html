@@ -1,53 +1,446 @@
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OMIL LAB · 오밀랩</title>
-<meta name="description" content="OMIL LAB(오밀랩)은 오밀조밀하고 손맛 있는 모바일 게임을 만드는 1인 게임 스튜디오입니다. 대표작: 땡겨라! 병정단.">
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>땡겨라! 병정단 · OMIL LAB</title>
+<meta name="description" content="레버를 당기면 병정이 모입니다. 서로 다른 병정을 합치고, 친구와 함께 전선을 지키는 협동 디펜스 게임. OMIL LAB의 첫 게임입니다.">
+<meta property="og:title" content="땡겨라! 병정단">
+<meta property="og:description" content="레버를 당기면 병정이 모입니다. Google Play · App Store 출시 준비 중.">
+<meta property="og:image" content="assets/reg_w.jpg">
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="wrap">
-  <header class="top">
-    <a class="logo" href="/">OMIL <span>LAB</span></a>
-    <nav><a href="#games">게임</a><a href="#contact">문의</a><a href="privacy.html">개인정보처리방침</a></nav>
-  </header>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;900&display=swap">
+<style>
+/* 레이아웃: 화면에 고정된 한 장의 무대 위로 스크롤이 필름처럼 장면을 넘긴다. 장면 하나에 큰 문장 하나. */
+:root{
+  --night:#141110;--walnut:#2a1f18;--brass:#d6a64f;--brass-deep:#9b7230;--bone:#efe7d8;--bone-2:#e3d9c6;--ink:#1d1815;--muted:#b9ad9b;--red:#a93a2c;--navy:#16233a;
+  --font:"Gothic A1","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  --gutter-l:max(20px,env(safe-area-inset-left,0px));--gutter-r:max(20px,env(safe-area-inset-right,0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--night)}
+body{margin:0;background:var(--night);color:var(--bone);font:400 16px/1.6 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{display:block;max-width:none}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:4px}
 
-  <main>
-    <div class="hero">
-      <h1>오밀조밀, 손맛 있는<br>모바일 게임을 만듭니다.</h1>
-      <p>OMIL LAB(오밀랩)은 작은 장난감 세계를 만드는 1인 게임 스튜디오입니다.</p>
+/* 머리글 */
+.top{position:fixed;inset:0 0 auto;z-index:30;display:flex;align-items:center;gap:14px;padding:calc(14px + env(safe-area-inset-top,0px)) var(--gutter-r) 14px var(--gutter-l);mix-blend-mode:normal}
+.brand{font-weight:900;letter-spacing:.14em;font-size:15px;text-decoration:none;margin-right:auto;color:var(--bone)}
+.brand span{color:var(--brass)}
+.on-light .brand{color:var(--ink)}.on-light .brand span{color:var(--brass-deep)}
+.on-light .top .chip{color:var(--ink);background:rgba(239,231,216,.7);border-color:rgba(29,24,21,.25)}
+.top .chip{font-size:13px;font-weight:700;padding:8px 13px;border-radius:999px;background:rgba(20,17,16,.55);backdrop-filter:blur(8px);color:var(--bone);text-decoration:none;border:1px solid rgba(239,231,216,.2);min-height:38px;display:inline-flex;align-items:center;gap:6px}
+
+/* 무대 */
+#film{position:relative;height:900vh;height:900svh}
+#stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--night);isolation:isolate}
+.scene{position:absolute;inset:0;overflow:hidden;visibility:hidden;will-change:opacity,transform}
+.frame{position:absolute;will-change:transform}
+.frame img,.frame picture{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shade{position:absolute;inset:0;pointer-events:none}
+
+/* 레버 */
+#lever{position:absolute;left:var(--sx);top:var(--sy);width:var(--lh);height:var(--lh);margin-left:calc(var(--lh)*-.4995);margin-top:calc(var(--lh)*-.856);transform-origin:49.95% 85.6%;will-change:transform;pointer-events:none;filter:drop-shadow(10px 14px 10px rgba(0,0,0,.45))}
+#lever img{width:100%;height:100%}
+#grip{position:absolute;left:50%;top:15%;width:clamp(72px,14vmin,120px);height:clamp(72px,14vmin,120px);transform:translate(-50%,-50%);border-radius:50%;pointer-events:auto;touch-action:none;cursor:grab}
+#grip:active{cursor:grabbing}
+#grip::after{content:"";position:absolute;inset:18%;border-radius:50%;border:1.5px solid rgba(214,166,79,.9);animation:ping 2.2s ease-out infinite}
+.pulled #grip::after{display:none}
+@keyframes ping{0%{transform:scale(.7);opacity:.9}70%,100%{transform:scale(1.5);opacity:0}}
+
+/* 태엽 터널 */
+#tunnel{background:#07060a}
+.ring{position:absolute;left:50%;top:50%;width:150vmax;height:150vmax;margin:-75vmax 0 0 -75vmax;border-radius:50%;background:url(assets/gears.jpg) center/cover;will-change:transform,opacity;-webkit-mask-image:radial-gradient(circle,#000 42%,transparent 70%);mask-image:radial-gradient(circle,#000 42%,transparent 70%)}
+#flash{position:absolute;inset:0;background:radial-gradient(circle,#fff3d0 0%,#e9b562 45%,rgba(233,181,98,0) 75%);opacity:0;pointer-events:none;z-index:12;will-change:opacity}
+
+/* 조합 */
+#merge{background:var(--bone);color:var(--ink);will-change:clip-path}
+.fig{position:absolute;left:50%;top:64%;width:min(62vmin,620px);margin-left:calc(min(62vmin,620px)/-2);margin-top:calc(min(62vmin,620px)/-2);will-change:transform,opacity;filter:drop-shadow(0 22px 18px rgba(60,40,20,.28))}
+.fig img{width:100%}
+#burst{position:absolute;left:50%;top:64%;width:min(80vmin,800px);height:min(80vmin,800px);margin:calc(min(80vmin,800px)/-2) 0 0 calc(min(80vmin,800px)/-2);border-radius:50%;border:2px solid var(--brass-deep);opacity:0;will-change:transform,opacity}
+#formula{position:absolute;left:0;right:0;bottom:calc(3.5vh + env(safe-area-inset-bottom,0px));text-align:center;font-weight:700;font-size:clamp(14px,1.7vw,18px);color:#5c4c3a;padding:0 20px}
+#formula b{color:var(--red)}
+
+/* 신화 */
+#mythic{position:absolute;right:5vw;bottom:13%;width:min(58vmin,600px);transform-origin:70% 90%;opacity:0;will-change:transform,opacity;filter:drop-shadow(0 18px 18px rgba(0,0,0,.55))}
+#mythic img{width:100%}
+#muzzle{position:absolute;left:-16%;top:18%;width:46%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff6d8 0%,#ffcf6e 34%,rgba(255,160,50,0) 72%);opacity:0;will-change:transform,opacity}
+#tag{position:absolute;right:5vw;bottom:calc(10% + env(safe-area-inset-bottom,0px));font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--brass);opacity:0;text-align:right;width:min(50vmin,540px)}
+
+/* 문구 */
+.cap{position:absolute;z-index:8;left:var(--gutter-l);right:var(--gutter-r);opacity:0;visibility:hidden;will-change:opacity,transform;pointer-events:none}
+.cap h2,.cap h1.big{font-weight:900;font-size:clamp(40px,6vw,92px);line-height:1.08;letter-spacing:-.045em;text-wrap:balance}
+.cap p{font-size:clamp(15px,1.9vw,22px);font-weight:500;margin-top:clamp(10px,1.6vw,20px);max-width:32em;color:rgba(239,231,216,.86)}
+.eyebrow{font-size:clamp(13px,1.3vw,16px);font-weight:700;letter-spacing:.02em;color:var(--brass);margin-bottom:clamp(8px,1.2vw,16px)}
+.lift{text-shadow:0 2px 28px rgba(0,0,0,.55)}
+.c-top{top:calc(11vh + env(safe-area-inset-top,0px))}
+.c-mid{top:50%;text-align:center}
+.c-mid p{margin-left:auto;margin-right:auto}
+.c-center{text-align:center}.c-center p{margin-left:auto;margin-right:auto}
+#capTunnel h2{display:flex;flex-wrap:wrap;gap:0 .3em;justify-content:center}
+#capTunnel h2 span{display:inline-block;will-change:transform}
+#capMerge h2{color:var(--ink)}#capMerge p{color:#54473a}
+
+/* 마지막 장면 */
+#capEnd{pointer-events:none}
+#capEnd.live{pointer-events:auto}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:0 24px;border-radius:12px;font-weight:900;font-size:16px;text-decoration:none;transition:transform .16s cubic-bezier(.3,1.6,.5,1),filter .2s,background .2s}
+.cta.main{background:var(--brass);color:#1b130a;box-shadow:0 3px 0 var(--brass-deep)}
+.cta.ghost{border:1.5px solid rgba(239,231,216,.55);color:var(--bone)}
+.cta:hover{transform:translateY(-2px) rotate(-.6deg);filter:brightness(1.07)}
+.cta:active{transform:translateY(2px);box-shadow:none}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(16px,2.4vw,28px)}
+.note{font-size:13.5px;margin-top:12px;color:rgba(239,231,216,.72)}
+
+/* 고정 버튼과 진행 표시 */
+#dock{position:fixed;z-index:29;right:var(--gutter-r);bottom:calc(18px + env(safe-area-inset-bottom,0px));transition:opacity .25s,transform .25s}
+#dock.off{opacity:0;transform:translateY(12px);pointer-events:none}
+#dock .cta{min-height:48px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+#dock .cta svg{width:18px;height:18px}
+#prog{position:fixed;z-index:29;left:var(--gutter-l);bottom:calc(30px + env(safe-area-inset-bottom,0px));width:min(26vw,190px);height:2px;background:rgba(239,231,216,.2);border-radius:2px}
+#prog i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:var(--brass)}
+#hint{position:absolute;z-index:9;left:0;right:0;bottom:calc(70px + env(safe-area-inset-bottom,0px));text-align:center;font-size:13.5px;font-weight:500;color:rgba(239,231,216,.8);pointer-events:none}
+#trail{position:fixed;inset:0;z-index:25;pointer-events:none}
+
+/* 필름 뒤 */
+.after{position:relative;z-index:2;background:var(--night)}
+.block{max-width:1120px;margin:0 auto;padding-block:clamp(56px,9vw,120px);padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+.about{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,6vw,72px);align-items:start}
+.about h2{font-size:clamp(30px,4.6vw,56px);font-weight:900;letter-spacing:-.04em;line-height:1.12}
+.about p{margin-top:16px;color:var(--muted);max-width:34em}
+.facts{display:grid;gap:0;font-size:15px}
+.facts div{display:grid;grid-template-columns:6.5em minmax(0,1fr);gap:12px;padding:14px 0;border-top:1px solid rgba(239,231,216,.14)}
+.facts div:last-child{border-bottom:1px solid rgba(239,231,216,.14)}
+.facts dt{color:var(--muted)}.facts dd{margin:0;font-weight:500}
+footer{border-top:1px solid rgba(239,231,216,.14);color:var(--muted);font-size:13px;line-height:1.85}
+footer .block{padding-block:30px 44px}
+footer strong{color:var(--bone)}
+
+/* 움직임 줄이기 / 스크립트 없음: 장면을 그냥 차례로 놓는다 */
+.static #film{height:auto}
+.static #stage{position:static;height:auto;overflow:visible;background:none}
+.static .scene{position:relative;inset:auto;height:100vh;height:100svh;visibility:visible}
+.static .cap{visibility:visible;opacity:1;pointer-events:auto}
+.static #tunnel,.static #lever,.static #hint,.static #prog,.static #mythic,.static #tag,.static #flash,.static #burst,.static #trail,.static #open,.static .fig.a,.static .fig.b{display:none}
+.static .fig.c{transform:none}
+.static .frame{inset:0;width:100%;height:100%}
+.static #capIn{display:none}
+
+@media (max-width:760px){
+  .about{grid-template-columns:minmax(0,1fr)}
+  .c-top{top:calc(12vh + env(safe-area-inset-top,0px))}
+  #mythic{right:-2vw;bottom:24%;width:min(66vmin,420px)}
+  #tag{bottom:calc(17% + env(safe-area-inset-bottom,0px));right:20px;width:auto}
+  #prog{width:22vw}
+  .top .chip{padding:7px 11px;font-size:12.5px}
+  #hint{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+  #formula{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+  .fig,#burst{top:60%}
+}
+</style>
+
+</head><body><header class="top">
+  <a class="brand" href="#top" aria-label="OMIL LAB">OMIL <span>LAB</span></a>
+  <button class="chip" id="snd" type="button" aria-pressed="false">소리 끔</button>
+  <a class="chip" href="#about" id="skip">건너뛰기</a>
+</header>
+
+<main id="top">
+  <section id="film" aria-label="땡겨라! 병정단 소개">
+    <div id="stage">
+      <!-- 1. 상자 -->
+      <div class="scene" id="sBox" style="z-index:1">
+        <div class="frame" id="fBox">
+          <picture><source media="(orientation:portrait)" srcset="assets/box_t.jpg"><img src="assets/box_w.jpg" alt="어두운 작업대 위의 닫힌 나무 상자" fetchpriority="high"></picture>
+          <picture id="open" style="opacity:0"><source media="(orientation:portrait)" srcset="assets/open_t.jpg"><img src="assets/open_w.jpg" alt="뚜껑이 열리며 빛이 새어 나오는 상자"></picture>
+          <div id="lever"><img src="assets/lever.webp" alt="황동 레버"><button id="grip" type="button" aria-label="레버 당기기"></button></div>
+        </div>
+        <div class="shade" style="background:linear-gradient(180deg,rgba(10,8,7,.62) 0%,rgba(10,8,7,.08) 45%,rgba(10,8,7,.4) 100%)"></div>
+      </div>
+      <!-- 2. 태엽 -->
+      <div class="scene" id="tunnel" style="z-index:2" aria-hidden="true"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+      <!-- 3. 집결 -->
+      <div class="scene" id="sReg" style="z-index:3">
+        <div class="frame" id="fReg"><picture><source media="(orientation:portrait)" srcset="assets/reg_t.jpg"><img src="assets/reg_w.jpg" alt="초록 펠트 위에 줄지어 선 병정단이 위를 바라본다" loading="eager"></picture></div>
+        <div class="shade" style="background:linear-gradient(180deg,rgba(5,16,10,.78) 0%,rgba(5,16,10,.1) 46%,rgba(5,16,10,.12) 70%,rgba(5,16,10,.55) 100%)"></div>
+      </div>
+      <!-- 4. 조합 -->
+      <div class="scene" id="merge" style="z-index:4">
+        <div id="burst"></div>
+        <div class="fig a" id="figA"><img src="assets/cut_spear.webp" alt="콕콕창병"></div>
+        <div class="fig b" id="figB"><img src="assets/cut_bow.webp" alt="딱활병"></div>
+        <div class="fig c" id="figC"><img src="assets/cut_gun.webp" alt="빨대콩총병"></div>
+        <p id="formula">콕콕창병 + 딱활병 = <b>빨대콩총병</b></p>
+      </div>
+      <!-- 5. 전선 -->
+      <div class="scene" id="sDef" style="z-index:5">
+        <div class="frame" id="fDef"><picture><source media="(orientation:portrait)" srcset="assets/def_t.jpg"><img src="assets/def_w.jpg" alt="두 병정단이 나무 벽 위에서 나란히 전선을 지킨다" loading="eager"></picture></div>
+        <div class="shade" style="background:linear-gradient(180deg,rgba(6,10,22,.86) 0%,rgba(6,10,22,.25) 40%,rgba(6,10,22,.05) 100%)"></div>
+        <div id="mythic"><div id="muzzle"></div><img src="assets/cut_chick.webp" alt="신화 병정 삐약단의 달걀 대포"></div>
+        <div id="tag">신화 · 삐약단</div>
+      </div>
+      <!-- 6. 깃발 -->
+      <div class="scene" id="sEnd" style="z-index:6">
+        <div class="frame" id="fEnd"><picture><source media="(orientation:portrait)" srcset="assets/fin_t.jpg"><img src="assets/fin_w.jpg" alt="나무 요새 위에 깃발을 세우는 병정" loading="eager"></picture></div>
+        <div class="shade" style="background:linear-gradient(100deg,rgba(24,14,6,.82) 0%,rgba(24,14,6,.42) 46%,rgba(24,14,6,0) 72%)"></div>
+      </div>
+      <div id="flash"></div>
+
+      <div class="cap c-top lift" id="capIn" style="z-index:9">
+        <div class="eyebrow">땡겨라! 병정단</div>
+        <h1 class="big">레버를<br>당기세요</h1>
+        <p>닫혀 있던 작은 세계가 열립니다.</p>
+      </div>
+      <div class="cap c-mid lift" id="capTunnel" style="z-index:9"><h2><span>상자</span> <span>안으로</span></h2></div>
+      <div class="cap c-top lift" id="capReg" style="z-index:9"><h2>병정단, 집결</h2><p>당기는 만큼 병정이 모입니다.</p></div>
+      <div class="cap c-top c-center" id="capMerge" style="z-index:9"><h2>둘이 만나,<br>새로워집니다</h2><p>서로 다른 병정을 합쳐 새로운 병정을 만드세요.</p></div>
+      <div class="cap c-top lift" id="capDef" style="z-index:9"><h2>두 병정단,<br>하나의 전선</h2><p>친구와 함께 몰려오는 적을 막으세요.</p></div>
+      <div class="cap c-top lift" id="capEnd" style="z-index:9">
+        <h2>출정을<br>준비할 시간</h2>
+        <p>Google Play · App Store 출시 준비 중입니다.</p>
+        <div class="row">
+          <a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick>소식 받기</a>
+          <a class="cta ghost" href="https://zzangjonghwan.github.io/ttaenggyeora-web/" target="_blank" rel="noopener" data-tick>웹에서 먼저 해 보기</a>
+        </div>
+        <p class="note">contact@omillab.com 으로 메일을 보내 주시면 출시 때 알려 드립니다.</p>
+      </div>
+      <div id="hint">레버를 아래로 끌거나, 스크롤하세요</div>
     </div>
+  </section>
 
-    <section id="games">
-      <div class="game">
-        <img src="ttaenggyeora-icon.png" alt="땡겨라! 병정단 아이콘">
-        <div class="info">
-          <h2>땡겨라! 병정단</h2>
-          <p>레버를 당겨 장난감 병정을 모으고, 같은 병정을 합쳐 키워 몰려오는 적을 막는 협동 디펜스 게임입니다.</p>
-          <span class="tag">디펜스</span><span class="tag">캐주얼</span><span class="tag">무료</span>
-          <span class="tag">Google Play · App Store 출시 준비 중</span><br>
-          <a class="btn" href="https://zzangjonghwan.github.io/ttaenggyeora-web/">웹에서 먼저 해 보기</a>
+  <div class="after">
+    <section class="block about" id="about">
+      <div>
+        <h2>땡겨라! 병정단</h2>
+        <p>레버를 당겨 장난감 병정을 모으고, 서로 다른 병정을 합쳐 키우며, 친구와 함께 몰려오는 적을 막는 협동 디펜스 게임입니다.</p>
+        <div class="row">
+          <a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick>소식 받기</a>
+          <a class="cta ghost" href="https://zzangjonghwan.github.io/ttaenggyeora-web/" target="_blank" rel="noopener" data-tick>웹에서 먼저 해 보기</a>
         </div>
       </div>
+      <dl class="facts">
+        <div><dt>장르</dt><dd>협동 디펜스</dd></div>
+        <div><dt>이용 방식</dt><dd>무료, 광고 제거 구독과 패키지 판매</dd></div>
+        <div><dt>출시</dt><dd>Google Play · App Store 준비 중</dd></div>
+        <div><dt>만든 곳</dt><dd>OMIL LAB, 작은 장난감 세계를 만드는 1인 스튜디오</dd></div>
+        <div><dt>문의</dt><dd>contact@omillab.com</dd></div>
+      </dl>
     </section>
+  </div>
+</main>
 
-    <section id="contact">
-      <h2 class="title">문의</h2>
-      <p>게임 이용, 결제, 개인정보 관련 문의는 <a href="mailto:contact@omillab.com">contact@omillab.com</a> 으로 보내 주세요.</p>
-    </section>
-  </main>
-
-  <footer>
+<footer class="after">
+  <div class="block">
     <strong>OMIL LAB은 유유(UU)의 게임 브랜드입니다.</strong><br>
     상호: 유유(UU) · 대표: 정종환 · 사업자등록번호: 494-33-01105<br>
-    <!-- 통신판매업 신고번호: 번호를 받으면 이 줄을 채운다 -->
     주소: 전남광주통합특별시 동구 천변우로 361-15, 817호<br>
     이메일: contact@omillab.com · <a href="privacy.html">개인정보처리방침</a><br>
     © 2026 OMIL LAB
-  </footer>
-</div>
-</body>
-</html>
+  </div>
+</footer>
+
+<div id="prog" aria-hidden="true"><i></i></div>
+<div id="dock"><a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 8v4l3 2"/></svg>소식 받기</a></div>
+<canvas id="trail" aria-hidden="true"></canvas>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s) => document.querySelector(s);
+  if (reduce) { document.documentElement.classList.add('static'); $('#dock').classList.add('off'); return; }
+
+  const film = $('#film'), stage = $('#stage');
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const seg = (p, a, b) => clamp((p - a) / (b - a));
+  const inOut = (t) => t * t * (3 - 2 * t);
+  const easeIn = (t) => t * t * t;
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+  const back = (t) => { const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+  const vis = (el, on) => { el.style.visibility = on ? 'visible' : 'hidden'; };
+
+  // 장면 틀: 그림 비율을 지키며 화면을 덮는다. 레버 위치가 그림 기준이라 틀로 맞춘다.
+  const frames = [...document.querySelectorAll('.frame')];
+  const fBox = $('#fBox');
+  function layout() {
+    const w = stage.clientWidth, h = stage.clientHeight, portrait = matchMedia('(orientation:portrait)').matches;
+    const a = portrait ? 9 / 16 : 16 / 9;
+    const fw = Math.max(w, h * a), fh = fw / a;
+    frames.forEach((f) => { f.style.width = fw + 'px'; f.style.height = fh + 'px'; f.style.left = (w - fw) / 2 + 'px'; f.style.top = (h - fh) / 2 + 'px'; });
+    fBox.style.setProperty('--sx', (portrait ? .712 : .662) * 100 + '%');
+    fBox.style.setProperty('--sy', (portrait ? .71 : .645) * 100 + '%');
+    fBox.style.setProperty('--lh', fh * (portrait ? .36 : .52) + 'px');
+    // 세로 화면에서는 상자가 아래쪽에 있어 그림을 그대로 둔다
+    fBox.style.transformOrigin = portrait ? '60% 62%' : '52% 50%';
+  }
+  layout(); addEventListener('resize', layout);
+
+  // 스크롤 위치 → 진행도
+  let target = 0, cur = 0, auto = null;
+  const range = () => film.offsetHeight - stage.clientHeight;
+  const readScroll = () => { target = clamp((scrollY - film.offsetTop) / range()); };
+  const chrome = () => { const end = film.offsetTop + range(); $('#prog').style.opacity = scrollY > end ? 0 : 1; $('#dock').classList.toggle('off', target > .895 || scrollY > end); };
+  addEventListener('scroll', () => { readScroll(); chrome(); }, { passive: true });
+  const scrollToP = (p) => scrollTo(0, film.offsetTop + p * range());
+
+  // 레버: 끌면 스크롤을 움직인다. 눌렀다 놓으면 끝까지 당겨진다.
+  const LEVER_END = 0.12;
+  const grip = $('#grip');
+  let drag = null;
+  grip.addEventListener('pointerdown', (e) => { e.preventDefault(); grip.setPointerCapture(e.pointerId); drag = { y: e.clientY, p: target, moved: 0 }; auto = null; audio.wake(); });
+  grip.addEventListener('pointermove', (e) => { if (!drag) return; const dy = e.clientY - drag.y; drag.moved = Math.max(drag.moved, Math.abs(dy)); scrollToP(clamp(drag.p + (dy / (stage.clientHeight * .32)) * LEVER_END, 0, LEVER_END)); });
+  const endDrag = () => { if (!drag) return; const pulled = target / LEVER_END; const tap = drag.moved < 8; drag = null; auto = (tap || pulled > .55) ? 0.2 : 0; };
+  grip.addEventListener('pointerup', endDrag); grip.addEventListener('pointercancel', endDrag);
+  grip.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); auto = 0.2; } });
+  addEventListener('wheel', () => { auto = null; }, { passive: true });
+  addEventListener('touchmove', () => { if (!drag) auto = null; }, { passive: true });
+
+  // 소리: 합성음만 쓴다. 기본은 끔.
+  const audio = (() => {
+    let ctx = null, on = false, last = 0;
+    const blip = (f, d, type, g) => { if (!on || !ctx) return; const o = ctx.createOscillator(), a = ctx.createGain(), t = ctx.currentTime; o.type = type; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(Math.max(40, f * .55), t + d); a.gain.setValueAtTime(g, t); a.gain.exponentialRampToValueAtTime(.0001, t + d); o.connect(a).connect(ctx.destination); o.start(t); o.stop(t + d + .02); };
+    return {
+      wake() { if (on && ctx && ctx.state === 'suspended') ctx.resume(); },
+      toggle() { on = !on; if (on && !ctx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) ctx = new AC(); else on = false; } if (ctx && ctx.state === 'suspended') ctx.resume(); return on; },
+      tick() { const n = performance.now(); if (n - last < 45) return; last = n; blip(1500, .03, 'square', .035); },
+      clunk() { blip(170, .16, 'triangle', .22); blip(620, .05, 'square', .05); },
+      chime() { blip(880, .35, 'sine', .09); setTimeout(() => blip(1320, .4, 'sine', .07), 70); },
+      boom() { blip(95, .4, 'triangle', .3); blip(240, .12, 'sawtooth', .05); },
+    };
+  })();
+  const sndBtn = $('#snd');
+  sndBtn.addEventListener('click', () => { const on = audio.toggle(); sndBtn.textContent = on ? '소리 켬' : '소리 끔'; sndBtn.setAttribute('aria-pressed', on); if (on) audio.tick(); });
+  document.querySelectorAll('[data-tick],.chip').forEach((el) => { el.addEventListener('pointerenter', () => audio.tick()); });
+
+  // 커서 궤적: 황동 가루. 마우스가 있는 환경에서만.
+  const trail = $('#trail'), tc = trail.getContext('2d'), fine = matchMedia('(pointer:fine)').matches;
+  let parts = [], trailOn = false;
+  const sizeTrail = () => { trail.width = innerWidth; trail.height = innerHeight; };
+  sizeTrail(); addEventListener('resize', sizeTrail);
+  if (fine) addEventListener('pointermove', (e) => { for (let i = 0; i < 2; i++) parts.push({ x: e.clientX, y: e.clientY, vx: (Math.random() - .5) * 1.2, vy: Math.random() * .9 + .2, a: 1, r: Math.random() * 1.8 + .7 }); if (parts.length > 90) parts.splice(0, parts.length - 90); trailOn = true; }, { passive: true });
+  function drawTrail() {
+    if (!trailOn) return;
+    tc.clearRect(0, 0, trail.width, trail.height);
+    parts = parts.filter((q) => (q.a -= .028) > 0);
+    for (const q of parts) { q.x += q.vx; q.y += q.vy; tc.globalAlpha = q.a * .85; tc.fillStyle = '#d6a64f'; tc.beginPath(); tc.arc(q.x, q.y, q.r, 0, 6.3); tc.fill(); }
+    if (!parts.length) { trailOn = false; tc.clearRect(0, 0, trail.width, trail.height); }
+  }
+
+  // 마우스에 살짝 반응
+  let mx = 0, my = 0, smx = 0, smy = 0;
+  if (fine) addEventListener('pointermove', (e) => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; }, { passive: true });
+
+  const el = { sBox: $('#sBox'), open: $('#open'), lever: $('#lever'), tunnel: $('#tunnel'), rings: [...document.querySelectorAll('.ring')], flash: $('#flash'), sReg: $('#sReg'), fReg: $('#fReg'), merge: $('#merge'), figA: $('#figA'), figB: $('#figB'), figC: $('#figC'), burst: $('#burst'), formula: $('#formula'), sDef: $('#sDef'), fDef: $('#fDef'), mythic: $('#mythic'), muzzle: $('#muzzle'), tag: $('#tag'), sEnd: $('#sEnd'), fEnd: $('#fEnd'), hint: $('#hint'), prog: $('#prog i'), dock: $('#dock'), capEnd: $('#capEnd'), tw: [...document.querySelectorAll('#capTunnel span')] };
+  // 문구: [나타남 시작, 다 나타남, 사라짐 시작, 다 사라짐]
+  const caps = [['#capIn', -1, -.5, .085, .125], ['#capTunnel', .235, .265, .335, .385], ['#capReg', .435, .465, .525, .55], ['#capMerge', .585, .61, .695, .715], ['#capDef', .745, .77, .855, .875], ['#capEnd', .9, .935, 2, 3]].map(([s, a, b, c, d]) => ({ n: $(s), a, b, c, d }));
+
+  let lastAngle = 0, opened = false, merged = false, fired = false, lastP = -1;
+  function render(p) {
+    // 1. 상자와 레버
+    const pull = inOut(seg(p, .012, LEVER_END));
+    const angle = 14 - pull * 94;
+    el.lever.style.transform = `rotate(${angle}deg)`;
+    if (Math.abs(angle - lastAngle) > 7) { audio.tick(); lastAngle = angle; }
+    document.documentElement.classList.toggle('pulled', pull > .98);
+    const openT = inOut(seg(p, LEVER_END - .012, .15));
+    el.open.style.opacity = openT;
+    if (openT > .05 && !opened) { opened = true; audio.clunk(); } if (openT < .01) opened = false;
+    const dive = easeIn(seg(p, .155, .285));
+    const wide = innerWidth > innerHeight; const heroK = wide ? 1 - seg(p, .13, .24) : 0; const hx = heroK * innerWidth * .07; const hy = heroK * innerHeight * .05;
+    fBox.style.transform = `translate(${hx - smx * 12}px,${hy - smy * 8}px) scale(${1.02 + heroK * .15 + seg(p, 0, .15) * .05 + dive * 9})`;
+    el.lever.style.opacity = 1 - seg(p, .17, .21);
+    el.sBox.style.opacity = 1 - seg(p, .25, .29);
+    vis(el.sBox, p < .295);
+    el.hint.style.opacity = 1 - seg(p, .005, .05);
+
+    // 2. 태엽 공간으로 빨려 들어감: 같은 고리를 세 겹 키워 끝없이 들어가는 느낌을 낸다.
+    const tt = seg(p, .225, .41);
+    vis(el.tunnel, p > .225 && p < .425);
+    el.tunnel.style.opacity = inOut(seg(p, .225, .27));
+    if (p > .225 && p < .425) el.rings.forEach((r, i) => {
+      const ph = (tt * 2.1 + i / 3) % 1;
+      const sc = .3 * Math.pow(9, ph);
+      const al = Math.min(1, ph * 4) * (1 - seg(ph, .72, 1));
+      r.style.transform = `rotate(${(i % 2 ? -1 : 1) * tt * 150 + i * 40}deg) scale(${sc})`;
+      r.style.opacity = al;
+    });
+    const spread = easeIn(seg(p, .325, .385));
+    if (el.tw[0]) { el.tw[0].style.transform = `translateX(${-spread * 34}vw)`; el.tw[1].style.transform = `translateX(${spread * 34}vw)`; }
+    const fl = seg(p, .39, .42) * (1 - seg(p, .42, .46));
+    el.flash.style.opacity = fl;
+
+    // 3. 집결
+    vis(el.sReg, p > .405 && p < .59);
+    if (p > .405 && p < .59) { el.fReg.style.transform = `translate(${-smx * 18}px,${-smy * 12}px) scale(${1.32 - inOut(seg(p, .415, .56)) * .3})`; }
+
+    // 4. 조합
+    const rev = inOut(seg(p, .545, .59));
+    vis(el.merge, p > .545 && p < .745);
+    if (p > .545 && p < .745) {
+      el.merge.style.clipPath = `circle(${rev * 130}vmax at 50% 64%)`;
+      const m = inOut(seg(p, .6, .652));
+      const off = Math.min(innerWidth * .34, innerHeight * .34) * (1 - m);
+      el.figA.style.transform = `translateX(${-off - 6}px) scale(${.88 + m * .04}) rotate(${(1 - m) * -5}deg)`;
+      el.figB.style.transform = `translateX(${off + 6}px) scale(${.88 + m * .04}) rotate(${(1 - m) * 5}deg)`;
+      const after = seg(p, .652, .668);
+      el.figA.style.opacity = el.figB.style.opacity = 1 - after;
+      const pop = seg(p, .652, .682);
+      el.figC.style.opacity = after;
+      el.figC.style.transform = `scale(${.55 + back(pop) * .6})`;
+      const br = seg(p, .65, .69);
+      el.burst.style.opacity = (1 - br) * (br > 0 ? .9 : 0);
+      el.burst.style.transform = `scale(${.2 + br * 1.2})`;
+      el.formula.style.opacity = seg(p, .665, .69);
+      if (pop > .05 && !merged) { merged = true; audio.chime(); } if (pop < .01) merged = false;
+    }
+
+    // 5. 전선: 아래에서 올라오고, 끝에 신화가 한 발 쏜다.
+    const up = inOut(seg(p, .715, .75));
+    vis(el.sDef, p > .715 && p < .925);
+    if (p > .715 && p < .925) {
+      const shot = seg(p, .842, .856), rec = (1 - seg(p, .856, .88));
+      const shake = shot > 0 && rec > 0 ? Math.sin(p * 900) * rec * 7 : 0;
+      el.sDef.style.transform = `translateY(${(1 - up) * 100}%)`;
+      el.fDef.style.transform = `translate(${-smx * 16 + shake}px,${innerHeight * .1 - smy * 10 + shake * .5}px) scale(${1.2 - inOut(seg(p, .72, .9)) * .14})`;
+      const rise = back(seg(p, .795, .83));
+      el.mythic.style.opacity = seg(p, .795, .81);
+      el.mythic.style.transform = `translateY(${(1 - rise) * 60}%) rotate(${shot > 0 ? rec * 3 : 0}deg) translateX(${shot > 0 ? rec * 18 : 0}px)`;
+      el.tag.style.opacity = seg(p, .815, .835);
+      el.muzzle.style.opacity = shot > 0 ? rec * rec : 0;
+      el.muzzle.style.transform = `scale(${.5 + shot * 1.4})`;
+      if (shot > .2 && !fired) { fired = true; audio.boom(); } if (shot < .01) fired = false;
+    }
+
+    // 6. 깃발
+    const fin = inOut(seg(p, .875, .925));
+    vis(el.sEnd, p > .875);
+    if (p > .875) { el.sEnd.style.opacity = fin; el.fEnd.style.transform = `translate(${-smx * 10}px,${-smy * 6}px) scale(${1.1 - seg(p, .875, 1) * .1})`; }
+
+    // 문구
+    for (const c of caps) {
+      const o = seg(p, c.a, c.b) * (1 - seg(p, c.c, c.d));
+      c.n.style.opacity = o; vis(c.n, o > .001);
+      c.n.style.transform = `translateY(${(1 - seg(p, c.a, c.b)) * 26 - seg(p, c.c, c.d) * 22}px)` + (c.n.id === 'capTunnel' ? ' translateY(-50%)' : '');
+    }
+    el.capEnd.classList.toggle('live', p > .92);
+    document.documentElement.classList.toggle('on-light', p > .57 && p < .735);
+    el.prog.style.transform = `scaleX(${p})`;
+      }
+
+  function loop() {
+    if (auto !== null) {
+      const d = auto - target;
+      if (Math.abs(d) < .0015) { scrollToP(auto); auto = null; } else scrollToP(target + d * .05 + Math.sign(d) * .0008);
+    }
+    smx += (mx - smx) * .06; smy += (my - smy) * .06;
+    cur += (target - cur) * .12;
+    if (Math.abs(target - cur) < .00015) cur = target;
+    if (cur !== lastP || Math.abs(mx - smx) > .001 || Math.abs(my - smy) > .001) { render(cur); lastP = cur; }
+    drawTrail();
+    requestAnimationFrame(loop);
+  }
+  readScroll(); chrome(); cur = target; render(cur); requestAnimationFrame(loop);
+})();
+</script>
+</body></html>
