@@ -7,18 +7,19 @@
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
 /* 레이아웃: 화면에 고정된 한 장의 무대 위로 스크롤이 필름처럼 장면을 넘긴다. 장면 하나에 큰 문장 하나. */
 :root{
   --night:#141110;--walnut:#2a1f18;--brass:#d6a64f;--brass-deep:#9b7230;--bone:#efe7d8;--bone-2:#e3d9c6;--ink:#1d1815;--muted:#b9ad9b;--red:#a93a2c;--navy:#16233a;
-  --font:"Gothic A1","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  --font:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  --display:"Do Hyeon","Noto Sans KR","Malgun Gothic",sans-serif;
   --gutter-l:max(20px,env(safe-area-inset-left,0px));--gutter-r:max(20px,env(safe-area-inset-right,0px));
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{background:var(--night)}
-body{margin:0;background:var(--night);color:var(--bone);font:400 16px/1.6 var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:var(--night);color:var(--bone);font:400 16px/1.6 var(--font);font-synthesis:none;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 img{display:block;max-width:none}
 h1,h2,h3,p{margin:0}
@@ -27,11 +28,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* 머리글 */
 .top{position:fixed;inset:0 0 auto;z-index:30;display:flex;align-items:center;gap:14px;padding:calc(14px + env(safe-area-inset-top,0px)) var(--gutter-r) 14px var(--gutter-l);mix-blend-mode:normal}
-.brand{font-weight:900;letter-spacing:.14em;font-size:15px;text-decoration:none;margin-right:auto;color:var(--bone)}
+.brand{font-weight:700;letter-spacing:.14em;font-size:15px;text-decoration:none;margin-right:auto;color:var(--bone)}
 .brand span{color:var(--brass)}
 .on-light .brand{color:var(--ink)}.on-light .brand span{color:var(--brass-deep)}
 .on-light .top .chip{color:var(--ink);background:rgba(239,231,216,.7);border-color:rgba(29,24,21,.25)}
 .top .chip{font-size:13px;font-weight:700;padding:8px 13px;border-radius:999px;background:rgba(20,17,16,.55);backdrop-filter:blur(8px);color:var(--bone);text-decoration:none;border:1px solid rgba(239,231,216,.2);min-height:38px;display:inline-flex;align-items:center;gap:6px}
+.past .top{background:rgba(20,17,16,.92);backdrop-filter:blur(8px)}
+.past #skip{display:none}
 
 /* 무대 */
 #film{position:relative;height:900vh;height:900svh}
@@ -71,7 +74,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* 문구 */
 .cap{position:absolute;z-index:8;left:var(--gutter-l);right:var(--gutter-r);opacity:0;visibility:hidden;will-change:opacity,transform;pointer-events:none}
-.cap h2,.cap h1.big{font-weight:900;font-size:clamp(40px,6vw,92px);line-height:1.08;letter-spacing:-.045em;text-wrap:balance}
+.cap h2,.cap h1.big{font-family:var(--display);font-weight:400;font-size:clamp(46px,6.6vw,100px);line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
 .cap p{font-size:clamp(15px,1.9vw,22px);font-weight:500;margin-top:clamp(10px,1.6vw,20px);max-width:32em;color:rgba(239,231,216,.86)}
 .eyebrow{font-size:clamp(13px,1.3vw,16px);font-weight:700;letter-spacing:.02em;color:var(--brass);margin-bottom:clamp(8px,1.2vw,16px)}
 .lift{text-shadow:0 2px 28px rgba(0,0,0,.55)}
@@ -86,7 +89,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* 마지막 장면 */
 #capEnd{pointer-events:none}
 #capEnd.live{pointer-events:auto}
-.cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:0 24px;border-radius:12px;font-weight:900;font-size:16px;text-decoration:none;transition:transform .16s cubic-bezier(.3,1.6,.5,1),filter .2s,background .2s}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:0 24px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .16s cubic-bezier(.3,1.6,.5,1),filter .2s,background .2s}
 .cta.main{background:var(--brass);color:#1b130a;box-shadow:0 3px 0 var(--brass-deep)}
 .cta.ghost{border:1.5px solid rgba(239,231,216,.55);color:var(--bone)}
 .cta:hover{transform:translateY(-2px) rotate(-.6deg);filter:brightness(1.07)}
@@ -107,8 +110,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* 필름 뒤 */
 .after{position:relative;z-index:2;background:var(--night)}
 .block{max-width:1120px;margin:0 auto;padding-block:clamp(56px,9vw,120px);padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
-.about{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,6vw,72px);align-items:start}
-.about h2{font-size:clamp(30px,4.6vw,56px);font-weight:900;letter-spacing:-.04em;line-height:1.12}
+.about{padding-top:max(104px,9vw);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,6vw,72px);align-items:start}
+.about h2{font-family:var(--display);font-size:clamp(34px,5vw,62px);font-weight:400;letter-spacing:-.01em;line-height:1.12}
 .about p{margin-top:16px;color:var(--muted);max-width:34em}
 .facts{display:grid;gap:0;font-size:15px}
 .facts div{display:grid;grid-template-columns:6.5em minmax(0,1fr);gap:12px;padding:14px 0;border-top:1px solid rgba(239,231,216,.14)}
@@ -128,6 +131,10 @@ footer strong{color:var(--bone)}
 .static .frame{inset:0;width:100%;height:100%}
 .static #capIn{display:none}
 
+@media (orientation:landscape){
+  #capMerge{top:8vh}
+  #capMerge h2{font-size:clamp(36px,8vmin,72px)}
+}
 @media (max-width:760px){
   .about{grid-template-columns:minmax(0,1fr)}
   .c-top{top:calc(12vh + env(safe-area-inset-top,0px))}
@@ -191,22 +198,22 @@ footer strong{color:var(--bone)}
       <div class="cap c-top lift" id="capIn" style="z-index:9">
         <div class="eyebrow">땡겨라! 병정단</div>
         <h1 class="big">레버를<br>당기세요</h1>
-        <p>닫혀 있던 작은 세계가 열립니다.</p>
+        <p>상자 속 작은 병정들이 깨어납니다.</p>
       </div>
       <div class="cap c-mid lift" id="capTunnel" style="z-index:9"><h2><span>상자</span> <span>안으로</span></h2></div>
-      <div class="cap c-top lift" id="capReg" style="z-index:9"><h2>병정단, 집결</h2><p>당기는 만큼 병정이 모입니다.</p></div>
-      <div class="cap c-top c-center" id="capMerge" style="z-index:9"><h2>둘이 만나,<br>새로워집니다</h2><p>서로 다른 병정을 합쳐 새로운 병정을 만드세요.</p></div>
-      <div class="cap c-top lift" id="capDef" style="z-index:9"><h2>두 병정단,<br>하나의 전선</h2><p>친구와 함께 몰려오는 적을 막으세요.</p></div>
+      <div class="cap c-top lift" id="capReg" style="z-index:9"><h2>병정단, 집결</h2><p>레버를 당기면 병정이 모입니다.</p></div>
+      <div class="cap c-top c-center" id="capMerge" style="z-index:9"><h2>둘을 합치면,<br>새로운 병정</h2><p>창과 활을 합쳤더니, 빨대콩총이 나왔습니다.</p></div>
+      <div class="cap c-top lift" id="capDef" style="z-index:9"><h2>두 병정단,<br>하나의 전선</h2><p>친구와 나란히, 몰려오는 적을 막으세요.</p></div>
       <div class="cap c-top lift" id="capEnd" style="z-index:9">
         <h2>출정을<br>준비할 시간</h2>
         <p>Google Play · App Store 출시 준비 중입니다.</p>
         <div class="row">
-          <a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick>소식 받기</a>
+          <a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick>출시 소식 받기</a>
           <a class="cta ghost" href="https://zzangjonghwan.github.io/ttaenggyeora-web/" target="_blank" rel="noopener" data-tick>웹에서 먼저 해 보기</a>
         </div>
-        <p class="note">contact@omillab.com 으로 메일을 보내 주시면 출시 때 알려 드립니다.</p>
+        <p class="note">버튼을 누르면 메일이 열립니다. 보내 주시면 출시 때 알려 드릴게요.</p>
       </div>
-      <div id="hint">레버를 아래로 끌거나, 스크롤하세요</div>
+      <div id="hint">레버를 아래로 당기거나, 스크롤하세요</div>
     </div>
   </section>
 
@@ -214,9 +221,9 @@ footer strong{color:var(--bone)}
     <section class="block about" id="about">
       <div>
         <h2>땡겨라! 병정단</h2>
-        <p>레버를 당겨 장난감 병정을 모으고, 서로 다른 병정을 합쳐 키우며, 친구와 함께 몰려오는 적을 막는 협동 디펜스 게임입니다.</p>
+        <p>레버를 당겨 장난감 병정을 모으고, 서로 다른 병정을 합쳐 새 병정을 만들며, 친구와 함께 적을 막는 협동 디펜스 게임입니다.</p>
         <div class="row">
-          <a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick>소식 받기</a>
+          <a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick>출시 소식 받기</a>
           <a class="cta ghost" href="https://zzangjonghwan.github.io/ttaenggyeora-web/" target="_blank" rel="noopener" data-tick>웹에서 먼저 해 보기</a>
         </div>
       </div>
@@ -242,7 +249,7 @@ footer strong{color:var(--bone)}
 </footer>
 
 <div id="prog" aria-hidden="true"><i></i></div>
-<div id="dock"><a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 8v4l3 2"/></svg>소식 받기</a></div>
+<div id="dock"><a class="cta main" href="mailto:contact@omillab.com?subject=%EB%95%A1%EA%B2%A8%EB%9D%BC!%20%EB%B3%91%EC%A0%95%EB%8B%A8%20%EC%B6%9C%EC%8B%9C%20%EC%86%8C%EC%8B%9D%20%EC%8B%A0%EC%B2%AD" data-tick><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 8v4l3 2"/></svg>출시 소식 받기</a></div>
 <canvas id="trail" aria-hidden="true"></canvas>
 
 <script>
@@ -280,7 +287,7 @@ footer strong{color:var(--bone)}
   let target = 0, cur = 0, auto = null;
   const range = () => film.offsetHeight - stage.clientHeight;
   const readScroll = () => { target = clamp((scrollY - film.offsetTop) / range()); };
-  const chrome = () => { const end = film.offsetTop + range(); $('#prog').style.opacity = scrollY > end ? 0 : 1; $('#dock').classList.toggle('off', target > .895 || scrollY > end); };
+  const chrome = () => { const end = film.offsetTop + range(); $('#prog').style.opacity = scrollY > end ? 0 : 1; $('#dock').classList.toggle('off', target > .895 || scrollY > end); document.documentElement.classList.toggle('past', scrollY > end); };
   addEventListener('scroll', () => { readScroll(); chrome(); }, { passive: true });
   const scrollToP = (p) => scrollTo(0, film.offsetTop + p * range());
 
